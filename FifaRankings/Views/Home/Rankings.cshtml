@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Rankings";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<table>
+    <thead>
+        <tr>
+            <td>Player</td>
+            <td>Points</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (RankingLeaderboard p in ViewBag.RankingsLeaderboard)
+        {
+        <tr>
+            <td>@p.Player</td>
+            <td>@p.RankingPoints</td>
+        </tr>
+        }
+    </tbody>
+</table>

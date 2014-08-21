@@ -1,0 +1,76 @@
+﻿@model FifaRankings.ViewModels.LogMatchViewModel
+@{
+    ViewBag.Title = "Rankings";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div>
+        @Html.LabelFor(model => model.MatchDate)
+        <div>
+            @Html.EditorFor(model => model.MatchDate)
+            @Html.ValidationMessageFor(model => Model.MatchDate)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.MatchStatusId)
+        <div>
+            @Html.DropDownListFor(model => model.MatchStatusId, Model.MatchStatuses, "Select match status")
+            @Html.ValidationMessageFor(model => Model.MatchStatusId)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.HomePlayerId)
+        <div>
+            @Html.DropDownListFor(model => model.HomePlayerId, Model.Players, "Select home player")
+            @Html.ValidationMessageFor(model => Model.HomePlayerId)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.HomeScore)
+        <div>
+            @Html.EditorFor(model => model.HomeScore)
+            @Html.ValidationMessageFor(model => Model.HomeScore)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.AwayPlayerId)
+        <div>
+            @Html.DropDownListFor(model => model.AwayPlayerId, Model.Players, "Select away player")
+            @Html.ValidationMessageFor(model => Model.AwayPlayerId)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.AwayScore)
+        <div>
+            @Html.EditorFor(model => model.AwayScore)
+            @Html.ValidationMessageFor(model => Model.AwayScore)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.WentToPenalties)
+        <div>
+            @Html.EditorFor(model => model.WentToPenalties)
+            @Html.ValidationMessageFor(model => Model.WentToPenalties)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.HomePenaltyScore)
+        <div>
+            @Html.EditorFor(model => model.HomePenaltyScore)
+            @Html.ValidationMessageFor(model => Model.HomePenaltyScore)
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.AwayPenaltyScore)
+        <div>
+            @Html.EditorFor(model => model.AwayPenaltyScore)
+            @Html.ValidationMessageFor(model => Model.AwayPenaltyScore)
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Submit" />
+    </div>
+}

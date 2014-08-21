@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FifaModelStoreContainer" CdmEntityContainer="FifaRankingsContext">
+    <EntitySetMapping Name="MatchResultLogs">
+      <EntityTypeMapping TypeName="FifaModel.MatchResultLog">
+        <MappingFragment StoreEntitySet="MatchResultLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="MatchStatusId" ColumnName="MatchStatusId" />
+          <ScalarProperty Name="HomePlayerId" ColumnName="HomePlayerId" />
+          <ScalarProperty Name="HomeScore" ColumnName="HomeScore" />
+          <ScalarProperty Name="AwayPlayerId" ColumnName="AwayPlayerId" />
+          <ScalarProperty Name="AwayScore" ColumnName="AwayScore" />
+          <ScalarProperty Name="Penalties" ColumnName="Penalties" />
+          <ScalarProperty Name="HomePenaltyScore" ColumnName="HomePenaltyScore" />
+          <ScalarProperty Name="AwayPenaltyScore" ColumnName="AwayPenaltyScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MatchStatus">
+      <EntityTypeMapping TypeName="FifaModel.MatchStatu">
+        <MappingFragment StoreEntitySet="MatchStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="Multiplier" ColumnName="Multiplier" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="FifaModel.Player">
+        <MappingFragment StoreEntitySet="Player">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RankingScoreLogs">
+      <EntityTypeMapping TypeName="FifaModel.RankingScoreLog">
+        <MappingFragment StoreEntitySet="RankingScoreLog">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="ResultOptionId" ColumnName="ResultOptionId" />
+          <ScalarProperty Name="MatchStatusId" ColumnName="MatchStatusId" />
+          <ScalarProperty Name="OppositionPlayerId" ColumnName="OppositionPlayerId" />
+          <ScalarProperty Name="OppositionPlayerRanking" ColumnName="OppositionPlayerRanking" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ResultOptions">
+      <EntityTypeMapping TypeName="FifaModel.ResultOption">
+        <MappingFragment StoreEntitySet="ResultOption">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="FifaModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RankingLeaderboards">
+      <EntityTypeMapping TypeName="FifaModel.RankingLeaderboard">
+        <MappingFragment StoreEntitySet="RankingLeaderboard">
+          <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
+          <ScalarProperty Name="Player" ColumnName="Player" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

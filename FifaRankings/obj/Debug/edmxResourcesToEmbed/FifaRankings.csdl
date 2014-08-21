@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FifaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="MatchResultLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="MatchStatusId" Type="Int32" Nullable="false" />
+    <Property Name="HomePlayerId" Type="Int32" Nullable="false" />
+    <Property Name="HomeScore" Type="Int32" Nullable="false" />
+    <Property Name="AwayPlayerId" Type="Int32" Nullable="false" />
+    <Property Name="AwayScore" Type="Int32" Nullable="false" />
+    <Property Name="Penalties" Type="Boolean" Nullable="false" />
+    <Property Name="HomePenaltyScore" Type="Int32" Nullable="false" />
+    <Property Name="AwayPenaltyScore" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Player" Relationship="Self.FK_MatchResultLog_AwayPlayer" FromRole="MatchResultLog" ToRole="Player" />
+    <NavigationProperty Name="Player1" Relationship="Self.FK_MatchResultLog_HomePlayer" FromRole="MatchResultLog" ToRole="Player" />
+    <NavigationProperty Name="MatchStatu" Relationship="Self.FK_MatchResultLog_MatchStatus" FromRole="MatchResultLog" ToRole="MatchStatus" />
+    <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_MatchResultLog" FromRole="MatchResultLog" ToRole="RankingScoreLog" />
+  </EntityType>
+  <EntityType Name="MatchStatu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Multiplier" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <NavigationProperty Name="MatchResultLogs" Relationship="Self.FK_MatchResultLog_MatchStatus" FromRole="MatchStatus" ToRole="MatchResultLog" />
+    <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_MatchStatus" FromRole="MatchStatus" ToRole="RankingScoreLog" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="MatchResultLogs" Relationship="Self.FK_MatchResultLog_AwayPlayer" FromRole="Player" ToRole="MatchResultLog" />
+    <NavigationProperty Name="MatchResultLogs1" Relationship="Self.FK_MatchResultLog_HomePlayer" FromRole="Player" ToRole="MatchResultLog" />
+    <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_OppositionPlayer" FromRole="Player" ToRole="RankingScoreLog" />
+    <NavigationProperty Name="RankingScoreLogs1" Relationship="Self.FK_RankingScoreLog_Player" FromRole="Player" ToRole="RankingScoreLog" />
+  </EntityType>
+  <EntityType Name="RankingScoreLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MatchId" Type="Int32" Nullable="false" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="ResultOptionId" Type="Int32" Nullable="false" />
+    <Property Name="MatchStatusId" Type="Int32" Nullable="false" />
+    <Property Name="OppositionPlayerId" Type="Int32" Nullable="false" />
+    <Property Name="OppositionPlayerRanking" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MatchResultLog" Relationship="Self.FK_RankingScoreLog_MatchResultLog" FromRole="RankingScoreLog" ToRole="MatchResultLog" />
+    <NavigationProperty Name="MatchStatu" Relationship="Self.FK_RankingScoreLog_MatchStatus" FromRole="RankingScoreLog" ToRole="MatchStatus" />
+    <NavigationProperty Name="Player" Relationship="Self.FK_RankingScoreLog_OppositionPlayer" FromRole="RankingScoreLog" ToRole="Player" />
+    <NavigationProperty Name="Player1" Relationship="Self.FK_RankingScoreLog_Player" FromRole="RankingScoreLog" ToRole="Player" />
+    <NavigationProperty Name="ResultOption" Relationship="Self.FK_RankingScoreLog_ResultOption" FromRole="RankingScoreLog" ToRole="ResultOption" />
+  </EntityType>
+  <EntityType Name="ResultOption">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Points" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_ResultOption" FromRole="ResultOption" ToRole="RankingScoreLog" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_MatchResultLog_AwayPlayer">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="MatchResultLog" Type="Self.MatchResultLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MatchResultLog">
+        <PropertyRef Name="AwayPlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MatchResultLog_HomePlayer">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="MatchResultLog" Type="Self.MatchResultLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MatchResultLog">
+        <PropertyRef Name="HomePlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MatchResultLog_MatchStatus">
+    <End Role="MatchStatus" Type="Self.MatchStatu" Multiplicity="1" />
+    <End Role="MatchResultLog" Type="Self.MatchResultLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MatchStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MatchResultLog">
+        <PropertyRef Name="MatchStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RankingScoreLog_MatchResultLog">
+    <End Role="MatchResultLog" Type="Self.MatchResultLog" Multiplicity="1" />
+    <End Role="RankingScoreLog" Type="Self.RankingScoreLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MatchResultLog">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RankingScoreLog">
+        <PropertyRef Name="MatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RankingScoreLog_MatchStatus">
+    <End Role="MatchStatus" Type="Self.MatchStatu" Multiplicity="1" />
+    <End Role="RankingScoreLog" Type="Self.RankingScoreLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MatchStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RankingScoreLog">
+        <PropertyRef Name="MatchStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RankingScoreLog_OppositionPlayer">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="RankingScoreLog" Type="Self.RankingScoreLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RankingScoreLog">
+        <PropertyRef Name="OppositionPlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RankingScoreLog_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="RankingScoreLog" Type="Self.RankingScoreLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RankingScoreLog">
+        <PropertyRef Name="MatchStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RankingScoreLog_ResultOption">
+    <End Role="ResultOption" Type="Self.ResultOption" Multiplicity="1" />
+    <End Role="RankingScoreLog" Type="Self.RankingScoreLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ResultOption">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RankingScoreLog">
+        <PropertyRef Name="ResultOptionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FifaRankingsContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="MatchResultLogs" EntityType="Self.MatchResultLog" />
+    <EntitySet Name="MatchStatus" EntityType="Self.MatchStatu" />
+    <EntitySet Name="Players" EntityType="Self.Player" />
+    <EntitySet Name="RankingScoreLogs" EntityType="Self.RankingScoreLog" />
+    <EntitySet Name="ResultOptions" EntityType="Self.ResultOption" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_MatchResultLog_AwayPlayer" Association="Self.FK_MatchResultLog_AwayPlayer">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="MatchResultLog" EntitySet="MatchResultLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MatchResultLog_HomePlayer" Association="Self.FK_MatchResultLog_HomePlayer">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="MatchResultLog" EntitySet="MatchResultLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MatchResultLog_MatchStatus" Association="Self.FK_MatchResultLog_MatchStatus">
+      <End Role="MatchStatus" EntitySet="MatchStatus" />
+      <End Role="MatchResultLog" EntitySet="MatchResultLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RankingScoreLog_MatchResultLog" Association="Self.FK_RankingScoreLog_MatchResultLog">
+      <End Role="MatchResultLog" EntitySet="MatchResultLogs" />
+      <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RankingScoreLog_MatchStatus" Association="Self.FK_RankingScoreLog_MatchStatus">
+      <End Role="MatchStatus" EntitySet="MatchStatus" />
+      <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RankingScoreLog_OppositionPlayer" Association="Self.FK_RankingScoreLog_OppositionPlayer">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RankingScoreLog_Player" Association="Self.FK_RankingScoreLog_Player">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RankingScoreLog_ResultOption" Association="Self.FK_RankingScoreLog_ResultOption">
+      <End Role="ResultOption" EntitySet="ResultOptions" />
+      <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
+    </AssociationSet>
+    <EntitySet Name="RankingLeaderboards" EntityType="FifaModel.RankingLeaderboard" />
+  </EntityContainer>
+  <EntityType Name="RankingLeaderboard">
+    <Key>
+      <PropertyRef Name="Player" />
+    </Key>
+    <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+    <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+  </EntityType>
+</Schema>
