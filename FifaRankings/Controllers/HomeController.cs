@@ -1,4 +1,5 @@
-﻿using FifaRankings.Repository;
+﻿using FifaRankings.Data;
+using FifaRankings.Repository;
 using FifaRankings.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace FifaRankings.Controllers
         public ActionResult Rankings()
         {
             ViewBag.Message = "The latest rankings are below.";
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 ViewBag.RankingsLeaderboard = db.RankingLeaderboards.OrderByDescending(p => p.RankingPoints).ToList();
             }

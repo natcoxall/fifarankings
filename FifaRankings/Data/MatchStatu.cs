@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FifaRankings
+namespace FifaRankings.Data
 {
     using System;
     using System.Collections.Generic;

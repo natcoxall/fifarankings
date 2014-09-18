@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FifaRankings
+namespace FifaRankings.Data
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class FifaRankingsContext : DbContext
+    public partial class FifaRankingsEntities : DbContext
     {
-        public FifaRankingsContext()
-            : base("name=FifaRankingsContext")
+        public FifaRankingsEntities()
+            : base("name=FifaRankingsEntities")
         {
         }
     
@@ -30,7 +30,8 @@ namespace FifaRankings
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<RankingScoreLog> RankingScoreLogs { get; set; }
         public virtual DbSet<ResultOption> ResultOptions { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<MatchResult> MatchResults { get; set; }
         public virtual DbSet<RankingLeaderboard> RankingLeaderboards { get; set; }
+        public virtual DbSet<RankingPoint> RankingPoints { get; set; }
     }
 }

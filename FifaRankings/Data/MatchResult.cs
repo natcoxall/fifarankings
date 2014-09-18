@@ -7,22 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FifaRankings
+namespace FifaRankings.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ResultOption
+    public partial class MatchResult
     {
-        public ResultOption()
-        {
-            this.RankingScoreLogs = new HashSet<RankingScoreLog>();
-        }
-    
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Points { get; set; }
-    
-        public virtual ICollection<RankingScoreLog> RankingScoreLogs { get; set; }
+        public System.DateTime MatchDate { get; set; }
+        public string MatchType { get; set; }
+        public string HomePlayer { get; set; }
+        public string HomeScore { get; set; }
+        public string AwayScore { get; set; }
+        public string AwayPlayer { get; set; }
+        public string PenaltiesPlayed { get; set; }
     }
 }

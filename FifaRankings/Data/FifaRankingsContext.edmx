@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="FifaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="FifaRankingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="MatchResultLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -56,24 +56,49 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.MatchResults' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MatchResults">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="MatchDate" />
+            <PropertyRef Name="MatchType" />
+            <PropertyRef Name="HomePlayer" />
+            <PropertyRef Name="AwayPlayer" />
+            <PropertyRef Name="PenaltiesPlayed" />
           </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
+          <Property Name="MatchDate" Type="datetime" Nullable="false" />
+          <Property Name="MatchType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="HomePlayer" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="HomeScore" Type="nvarchar" MaxLength="63" />
+          <Property Name="AwayScore" Type="nvarchar" MaxLength="63" />
+          <Property Name="AwayPlayer" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="PenaltiesPlayed" Type="varchar" MaxLength="3" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingLeaderboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RankingLeaderboard">
           <Key>
             <PropertyRef Name="Player" />
           </Key>
           <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
           <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingPoints' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RankingPoints">
+          <Key>
+            <PropertyRef Name="Player" />
+            <PropertyRef Name="MatchStatus" />
+            <PropertyRef Name="Result" />
+            <PropertyRef Name="Points" />
+            <PropertyRef Name="OppositionPlayer" />
+          </Key>
+          <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="MatchStatus" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
+          <Property Name="OppositionPlayer" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="RankingPoints" Type="decimal" Precision="29" Scale="0" />
         </EntityType>
         <Association Name="FK_MatchResultLog_AwayPlayer">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
@@ -171,18 +196,38 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="FifaModelStoreContainer">
+        <EntityContainer Name="FifaRankingsModelStoreContainer">
           <EntitySet Name="MatchResultLog" EntityType="Self.MatchResultLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchStatus" EntityType="Self.MatchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RankingScoreLog" EntityType="Self.RankingScoreLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResultOption" EntityType="Self.ResultOption" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchResults" EntityType="Self.MatchResults" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MatchResults].[MatchDate] AS [MatchDate], 
+    [MatchResults].[MatchType] AS [MatchType], 
+    [MatchResults].[HomePlayer] AS [HomePlayer], 
+    [MatchResults].[HomeScore] AS [HomeScore], 
+    [MatchResults].[AwayScore] AS [AwayScore], 
+    [MatchResults].[AwayPlayer] AS [AwayPlayer], 
+    [MatchResults].[PenaltiesPlayed] AS [PenaltiesPlayed]
+    FROM [dbo].[MatchResults] AS [MatchResults]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="RankingLeaderboard" EntityType="Self.RankingLeaderboard" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [RankingLeaderboard].[Player] AS [Player], 
     [RankingLeaderboard].[RankingPoints] AS [RankingPoints]
     FROM [dbo].[RankingLeaderboard] AS [RankingLeaderboard]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RankingPoints" EntityType="Self.RankingPoints" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RankingPoints].[Player] AS [Player], 
+    [RankingPoints].[MatchStatus] AS [MatchStatus], 
+    [RankingPoints].[Result] AS [Result], 
+    [RankingPoints].[Points] AS [Points], 
+    [RankingPoints].[OppositionPlayer] AS [OppositionPlayer], 
+    [RankingPoints].[RankingPoints] AS [RankingPoints]
+    FROM [dbo].[RankingPoints] AS [RankingPoints]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_MatchResultLog_AwayPlayer" Association="Self.FK_MatchResultLog_AwayPlayer">
             <End Role="Player" EntitySet="Player" />
@@ -217,10 +262,11 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             <End Role="RankingScoreLog" EntitySet="RankingScoreLog" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="FifaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="FifaRankingsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="MatchResultLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -288,15 +334,43 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
           <Property Name="Points" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_ResultOption" FromRole="ResultOption" ToRole="RankingScoreLog" />
         </EntityType>
-        <EntityType Name="sysdiagram">
+        <EntityType Name="MatchResult">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="MatchDate" />
+            <PropertyRef Name="MatchType" />
+            <PropertyRef Name="HomePlayer" />
+            <PropertyRef Name="AwayPlayer" />
+            <PropertyRef Name="PenaltiesPlayed" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="MatchDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MatchType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HomePlayer" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HomeScore" Type="String" MaxLength="63" FixedLength="false" Unicode="true" />
+          <Property Name="AwayScore" Type="String" MaxLength="63" FixedLength="false" Unicode="true" />
+          <Property Name="AwayPlayer" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PenaltiesPlayed" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RankingLeaderboard">
+          <Key>
+            <PropertyRef Name="Player" />
+          </Key>
+          <Property Name="Player" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="RankingPoint">
+          <Key>
+            <PropertyRef Name="Player" />
+            <PropertyRef Name="MatchStatus" />
+            <PropertyRef Name="Result" />
+            <PropertyRef Name="Points" />
+            <PropertyRef Name="OppositionPlayer" />
+          </Key>
+          <Property Name="Player" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MatchStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="OppositionPlayer" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RankingPoints" Type="Decimal" Precision="29" Scale="0" />
         </EntityType>
         <Association Name="FK_MatchResultLog_AwayPlayer">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
@@ -394,13 +468,15 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="FifaRankingsContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="FifaRankingsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MatchResultLogs" EntityType="Self.MatchResultLog" />
           <EntitySet Name="MatchStatus" EntityType="Self.MatchStatu" />
           <EntitySet Name="Players" EntityType="Self.Player" />
           <EntitySet Name="RankingScoreLogs" EntityType="Self.RankingScoreLog" />
           <EntitySet Name="ResultOptions" EntityType="Self.ResultOption" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="MatchResults" EntityType="Self.MatchResult" />
+          <EntitySet Name="RankingLeaderboards" EntityType="Self.RankingLeaderboard" />
+          <EntitySet Name="RankingPoints" EntityType="Self.RankingPoint" />
           <AssociationSet Name="FK_MatchResultLog_AwayPlayer" Association="Self.FK_MatchResultLog_AwayPlayer">
             <End Role="Player" EntitySet="Players" />
             <End Role="MatchResultLog" EntitySet="MatchResultLogs" />
@@ -433,23 +509,15 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             <End Role="ResultOption" EntitySet="ResultOptions" />
             <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
           </AssociationSet>
-          <EntitySet Name="RankingLeaderboards" EntityType="FifaModel.RankingLeaderboard" />
         </EntityContainer>
-        <EntityType Name="RankingLeaderboard">
-          <Key>
-            <PropertyRef Name="Player" />
-          </Key>
-          <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
-          <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="FifaModelStoreContainer" CdmEntityContainer="FifaRankingsContext">
+        <EntityContainerMapping StorageEntityContainer="FifaRankingsModelStoreContainer" CdmEntityContainer="FifaRankingsEntities">
           <EntitySetMapping Name="MatchResultLogs">
-            <EntityTypeMapping TypeName="FifaModel.MatchResultLog">
+            <EntityTypeMapping TypeName="FifaRankingsModel.MatchResultLog">
               <MappingFragment StoreEntitySet="MatchResultLog">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -465,7 +533,7 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MatchStatus">
-            <EntityTypeMapping TypeName="FifaModel.MatchStatu">
+            <EntityTypeMapping TypeName="FifaRankingsModel.MatchStatu">
               <MappingFragment StoreEntitySet="MatchStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
@@ -474,7 +542,7 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Players">
-            <EntityTypeMapping TypeName="FifaModel.Player">
+            <EntityTypeMapping TypeName="FifaRankingsModel.Player">
               <MappingFragment StoreEntitySet="Player">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
@@ -483,7 +551,7 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RankingScoreLogs">
-            <EntityTypeMapping TypeName="FifaModel.RankingScoreLog">
+            <EntityTypeMapping TypeName="FifaRankingsModel.RankingScoreLog">
               <MappingFragment StoreEntitySet="RankingScoreLog">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MatchId" ColumnName="MatchId" />
@@ -496,7 +564,7 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ResultOptions">
-            <EntityTypeMapping TypeName="FifaModel.ResultOption">
+            <EntityTypeMapping TypeName="FifaRankingsModel.ResultOption">
               <MappingFragment StoreEntitySet="ResultOption">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -504,22 +572,36 @@ warning 6002: The table/view 'Fifa.dbo.RankingLeaderboard' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="FifaModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+          <EntitySetMapping Name="MatchResults">
+            <EntityTypeMapping TypeName="FifaRankingsModel.MatchResult">
+              <MappingFragment StoreEntitySet="MatchResults">
+                <ScalarProperty Name="MatchDate" ColumnName="MatchDate" />
+                <ScalarProperty Name="MatchType" ColumnName="MatchType" />
+                <ScalarProperty Name="HomePlayer" ColumnName="HomePlayer" />
+                <ScalarProperty Name="HomeScore" ColumnName="HomeScore" />
+                <ScalarProperty Name="AwayScore" ColumnName="AwayScore" />
+                <ScalarProperty Name="AwayPlayer" ColumnName="AwayPlayer" />
+                <ScalarProperty Name="PenaltiesPlayed" ColumnName="PenaltiesPlayed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RankingLeaderboards">
-            <EntityTypeMapping TypeName="FifaModel.RankingLeaderboard">
+            <EntityTypeMapping TypeName="FifaRankingsModel.RankingLeaderboard">
               <MappingFragment StoreEntitySet="RankingLeaderboard">
-                <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
                 <ScalarProperty Name="Player" ColumnName="Player" />
+                <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RankingPoints">
+            <EntityTypeMapping TypeName="FifaRankingsModel.RankingPoint">
+              <MappingFragment StoreEntitySet="RankingPoints">
+                <ScalarProperty Name="Player" ColumnName="Player" />
+                <ScalarProperty Name="MatchStatus" ColumnName="MatchStatus" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="OppositionPlayer" ColumnName="OppositionPlayer" />
+                <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FifaRankings.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,7 @@ namespace FifaRankings.Repository
     {
         public static IEnumerable<SelectListItem> MatchStatusesSelectList()
         {
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 return db.MatchStatus.OrderBy(x => x.StatusName).ToList().
                     Select(x => new SelectListItem()
@@ -23,7 +24,7 @@ namespace FifaRankings.Repository
 
         public static IEnumerable<SelectListItem> PlayersSelectList()
         {
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 return db.Players.OrderBy(p => p.Firstname).ThenBy(p => p.Lastname).ToList().
                     Select(p => new SelectListItem()
@@ -36,7 +37,7 @@ namespace FifaRankings.Repository
 
         public static void LogMatchResult(MatchResultLog matchResult)
         {
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 db.MatchResultLogs.Add(matchResult);
                 db.SaveChanges();
@@ -45,7 +46,7 @@ namespace FifaRankings.Repository
 
         internal static ResultOption GetResultOption(MatchResultEnum matchResultEnum)
         {
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 return db.ResultOptions.First(x => x.Id == (int)matchResultEnum);
             }
@@ -53,7 +54,7 @@ namespace FifaRankings.Repository
 
         internal static void LogRankingScore(RankingScoreLog homeRankingScore)
         {
-            using (var db = new FifaRankingsContext())
+            using (var db = new FifaRankingsEntities())
             {
                 db.RankingScoreLogs.Add(homeRankingScore);
                 db.SaveChanges();

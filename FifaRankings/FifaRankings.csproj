@@ -162,51 +162,54 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="FifaRankings.Context.cs">
+    <Compile Include="Data\FifaRankingsContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FifaRankings.Context.tt</DependentUpon>
+      <DependentUpon>FifaRankingsContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="FifaRankings.cs">
+    <Compile Include="Data\FifaRankingsContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FifaRankings.tt</DependentUpon>
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="FifaRankings.Designer.cs">
+    <Compile Include="Data\FifaRankingsContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FifaRankings.edmx</DependentUpon>
+      <DependentUpon>FifaRankingsContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchResult.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchResultLog.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchStatu.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Player.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RankingLeaderboard.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RankingPoint.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RankingScoreLog.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ResultOption.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MatchResultEnum.cs" />
-    <Compile Include="MatchResultLog.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MatchStatu.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Player.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RankingLeaderboard.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RankingScoreLog.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
     <Compile Include="Repository\FifaRankingsRepo.cs" />
-    <Compile Include="ResultOption.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>FifaRankings.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\LogMatchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +218,10 @@
       <DependentUpon>aspnet-FifaRankings-20140506111827.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\Fifa.mdf" />
+    <Content Include="App_Data\FifaRankings.mdf" />
+    <Content Include="App_Data\FifaRankings_log.ldf">
+      <DependentUpon>FifaRankings.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\Fifa_log.ldf">
       <DependentUpon>Fifa.mdf</DependentUpon>
     </Content>
@@ -226,22 +233,22 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="FifaRankings.edmx">
+    <EntityDeploy Include="Data\FifaRankingsContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FifaRankings.Designer.cs</LastGenOutput>
+      <LastGenOutput>FifaRankingsContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="FifaRankings.Context.tt">
+    <Content Include="Data\FifaRankingsContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FifaRankings.edmx</DependentUpon>
-      <LastGenOutput>FifaRankings.Context.cs</LastGenOutput>
+      <DependentUpon>FifaRankingsContext.edmx</DependentUpon>
+      <LastGenOutput>FifaRankingsContext.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="FifaRankings.edmx.diagram">
-      <DependentUpon>FifaRankings.edmx</DependentUpon>
+    <Content Include="Data\FifaRankingsContext.edmx.diagram">
+      <DependentUpon>FifaRankingsContext.edmx</DependentUpon>
     </Content>
-    <Content Include="FifaRankings.tt">
+    <Content Include="Data\FifaRankingsContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FifaRankings.edmx</DependentUpon>
-      <LastGenOutput>FifaRankings.cs</LastGenOutput>
+      <DependentUpon>FifaRankingsContext.edmx</DependentUpon>
+      <LastGenOutput>FifaRankingsContext.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
