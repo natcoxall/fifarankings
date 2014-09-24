@@ -52,6 +52,26 @@
     <Property Name="Points" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.Handicaps' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Handicaps">
+    <Key>
+      <PropertyRef Name="Player" />
+    </Key>
+    <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
+    <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="AvailablePoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="Handicap" Type="decimal" Precision="38" Scale="6" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.HandicapsRounded' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="HandicapsRounded">
+    <Key>
+      <PropertyRef Name="Player" />
+    </Key>
+    <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
+    <Property Name="FinalRoundedHandicap" Type="numeric" Precision="38" Scale="6" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.MatchResults' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="MatchResults">
     <Key>
@@ -197,6 +217,20 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RankingScoreLog" EntityType="Self.RankingScoreLog" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ResultOption" EntityType="Self.ResultOption" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Handicaps" EntityType="Self.Handicaps" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Handicaps].[Player] AS [Player], 
+    [Handicaps].[RankingPoints] AS [RankingPoints], 
+    [Handicaps].[AvailablePoints] AS [AvailablePoints], 
+    [Handicaps].[Handicap] AS [Handicap]
+    FROM [dbo].[Handicaps] AS [Handicaps]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="HandicapsRounded" EntityType="Self.HandicapsRounded" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [HandicapsRounded].[Player] AS [Player], 
+    [HandicapsRounded].[FinalRoundedHandicap] AS [FinalRoundedHandicap]
+    FROM [dbo].[HandicapsRounded] AS [HandicapsRounded]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="MatchResults" EntityType="Self.MatchResults" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [MatchResults].[MatchDate] AS [MatchDate], 

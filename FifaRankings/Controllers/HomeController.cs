@@ -13,6 +13,12 @@ namespace FifaRankings.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Message = "The latest rankings are below.";
+            using (var db = new FifaRankingsEntities())
+            {
+                ViewBag.RankingsLeaderboard = db.RankingLeaderboards.OrderByDescending(p => p.RankingPoints).ToList();
+                ViewBag.PlayerHandicaps = db.HandicapsRoundeds.OrderBy(p => p.FinalRoundedHandicap).ToList();
+            }
             return View();
         }
 

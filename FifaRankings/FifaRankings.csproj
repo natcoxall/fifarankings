@@ -177,6 +177,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FifaRankingsContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Handicap.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\HandicapsRounded.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\MatchResult.cs">
       <DependentUpon>FifaRankingsContext.tt</DependentUpon>
     </Compile>

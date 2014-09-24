@@ -242,5 +242,23 @@
       <End Role="ResultOption" EntitySet="ResultOptions" />
       <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
     </AssociationSet>
+    <EntitySet Name="Handicaps" EntityType="FifaRankingsModel.Handicap" />
+    <EntitySet Name="HandicapsRoundeds" EntityType="FifaRankingsModel.HandicapsRounded" />
   </EntityContainer>
+  <EntityType Name="Handicap">
+    <Key>
+      <PropertyRef Name="Player" />
+    </Key>
+    <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+    <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="AvailablePoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="Handicap1" Type="Decimal" Precision="38" Scale="6" />
+  </EntityType>
+  <EntityType Name="HandicapsRounded">
+    <Key>
+      <PropertyRef Name="Player" />
+    </Key>
+    <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+    <Property Name="FinalRoundedHandicap" Type="Decimal" Precision="38" Scale="6" />
+  </EntityType>
 </Schema>

@@ -90,5 +90,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Handicaps">
+      <EntityTypeMapping TypeName="FifaRankingsModel.Handicap">
+        <MappingFragment StoreEntitySet="Handicaps">
+          <ScalarProperty Name="Handicap1" ColumnName="Handicap" />
+          <ScalarProperty Name="AvailablePoints" ColumnName="AvailablePoints" />
+          <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
+          <ScalarProperty Name="Player" ColumnName="Player" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HandicapsRoundeds">
+      <EntityTypeMapping TypeName="FifaRankingsModel.HandicapsRounded">
+        <MappingFragment StoreEntitySet="HandicapsRounded">
+          <ScalarProperty Name="FinalRoundedHandicap" ColumnName="FinalRoundedHandicap" />
+          <ScalarProperty Name="Player" ColumnName="Player" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
