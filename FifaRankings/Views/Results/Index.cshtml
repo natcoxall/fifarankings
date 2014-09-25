@@ -1,0 +1,70 @@
+﻿@model IEnumerable<FifaRankings.Data.MatchResult>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Match Results</h2>
+
+<p>
+    @Html.ActionLink("Enter Match Result", "LogMatch")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MatchDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MatchType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomePlayer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayPlayer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PenaltiesPlayed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MatchDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MatchType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomePlayer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AwayScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AwayPlayer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PenaltiesPlayed)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
