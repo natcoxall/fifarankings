@@ -25,6 +25,7 @@ namespace FifaRankings.Data
         public int Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual ICollection<MatchResultLog> MatchResultLogs { get; set; }
         public virtual ICollection<MatchResultLog> MatchResultLogs1 { get; set; }

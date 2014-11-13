@@ -40,6 +40,7 @@
     <NavigationProperty Name="MatchResultLogs1" Relationship="Self.FK_MatchResultLog_HomePlayer" FromRole="Player" ToRole="MatchResultLog" />
     <NavigationProperty Name="RankingScoreLogs" Relationship="Self.FK_RankingScoreLog_OppositionPlayer" FromRole="Player" ToRole="RankingScoreLog" />
     <NavigationProperty Name="RankingScoreLogs1" Relationship="Self.FK_RankingScoreLog_Player" FromRole="Player" ToRole="RankingScoreLog" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="RankingScoreLog">
     <Key>
