@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h1>Current Player Rankings</h1>
         <table class="table table-striped">
             <thead>
@@ -22,14 +22,26 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h2>Player Handicaps</h2>
-        <ol>
-            @foreach (FifaRankings.Data.HandicapsRounded player in ViewBag.PlayerHandicaps)
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Player</td>
+                    <td>PI</td>
+                    <td>Stars</td>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (FifaRankings.Data.Handicap player in ViewBag.PlayerHandicaps)
             {
-                <li>@player.FinalRoundedHandicap.Value.ToString(".0") | @player.Player</li>
+                <tr>
+                    <td>@player.Player</td>
+                    <td>@((player.PerformanceIndicator.Value * 100).ToString("."))%</td>
+                    <td>@player.Handicap1</td>
+                </tr>
             }
-        </ol>
-
+            </tbody>
+        </table>
     </div>
 </div>

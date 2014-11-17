@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="FifaRankingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="HandicapThresholds">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stars" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Low" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="High" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="MatchResultLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -65,8 +74,10 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
           </Key>
           <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
           <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
-          <Property Name="AvailablePoints" Type="decimal" Precision="38" Scale="0" />
-          <Property Name="Handicap" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="PerformanceIndicator" Type="decimal" Precision="38" Scale="6" />
+          <Property Name="Handicap" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.HandicapsRounded' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -99,10 +110,14 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingLeaderboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RankingLeaderboard">
           <Key>
+            <PropertyRef Name="PlayerId" />
             <PropertyRef Name="Player" />
           </Key>
+          <Property Name="PlayerId" Type="int" Nullable="false" />
           <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
           <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingPoints' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -218,6 +233,7 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="FifaRankingsModelStoreContainer">
+          <EntitySet Name="HandicapThresholds" EntityType="Self.HandicapThresholds" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchResultLog" EntityType="Self.MatchResultLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchStatus" EntityType="Self.MatchStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
@@ -227,7 +243,9 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
             <DefiningQuery>SELECT 
     [Handicaps].[Player] AS [Player], 
     [Handicaps].[RankingPoints] AS [RankingPoints], 
-    [Handicaps].[AvailablePoints] AS [AvailablePoints], 
+    [Handicaps].[PotentialPoints] AS [PotentialPoints], 
+    [Handicaps].[HandicapDenominator] AS [HandicapDenominator], 
+    [Handicaps].[PerformanceIndicator] AS [PerformanceIndicator], 
     [Handicaps].[Handicap] AS [Handicap]
     FROM [dbo].[Handicaps] AS [Handicaps]</DefiningQuery>
           </EntitySet>
@@ -250,8 +268,11 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
           </EntitySet>
           <EntitySet Name="RankingLeaderboard" EntityType="Self.RankingLeaderboard" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [RankingLeaderboard].[PlayerId] AS [PlayerId], 
     [RankingLeaderboard].[Player] AS [Player], 
-    [RankingLeaderboard].[RankingPoints] AS [RankingPoints]
+    [RankingLeaderboard].[RankingPoints] AS [RankingPoints], 
+    [RankingLeaderboard].[PotentialPoints] AS [PotentialPoints], 
+    [RankingLeaderboard].[HandicapDenominator] AS [HandicapDenominator]
     FROM [dbo].[RankingLeaderboard] AS [RankingLeaderboard]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RankingPoints" EntityType="Self.RankingPoints" store:Type="Views" store:Schema="dbo">
@@ -388,9 +409,13 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
         <EntityType Name="RankingLeaderboard">
           <Key>
             <PropertyRef Name="Player" />
+            <PropertyRef Name="PlayerId" />
           </Key>
           <Property Name="Player" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="PotentialPoints" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="HandicapDenominator" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="RankingPoint">
           <Key>
@@ -544,24 +569,36 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
             <End Role="ResultOption" EntitySet="ResultOptions" />
             <End Role="RankingScoreLog" EntitySet="RankingScoreLogs" />
           </AssociationSet>
-          <EntitySet Name="Handicaps" EntityType="FifaRankingsModel.Handicap" />
           <EntitySet Name="HandicapsRoundeds" EntityType="FifaRankingsModel.HandicapsRounded" />
+          <EntitySet Name="HandicapThresholds" EntityType="FifaRankingsModel.HandicapThreshold" />
+          <EntitySet Name="Handicaps" EntityType="FifaRankingsModel.Handicap" />
         </EntityContainer>
-        <EntityType Name="Handicap">
-          <Key>
-            <PropertyRef Name="Player" />
-          </Key>
-          <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
-          <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="AvailablePoints" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="Handicap1" Type="Decimal" Precision="38" Scale="6" />
-        </EntityType>
         <EntityType Name="HandicapsRounded">
           <Key>
             <PropertyRef Name="Player" />
           </Key>
           <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
           <Property Name="FinalRoundedHandicap" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
+        <EntityType Name="HandicapThreshold">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stars" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Low" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="High" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Handicap">
+          <Key>
+            <PropertyRef Name="Player" />
+          </Key>
+          <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PotentialPoints" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="HandicapDenominator" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PerformanceIndicator" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="Handicap1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -642,6 +679,9 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
           <EntitySetMapping Name="RankingLeaderboards">
             <EntityTypeMapping TypeName="FifaRankingsModel.RankingLeaderboard">
               <MappingFragment StoreEntitySet="RankingLeaderboard">
+                <ScalarProperty Name="HandicapDenominator" ColumnName="HandicapDenominator" />
+                <ScalarProperty Name="PotentialPoints" ColumnName="PotentialPoints" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="Player" ColumnName="Player" />
                 <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
               </MappingFragment>
@@ -659,20 +699,32 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Handicaps">
-            <EntityTypeMapping TypeName="FifaRankingsModel.Handicap">
-              <MappingFragment StoreEntitySet="Handicaps">
-                <ScalarProperty Name="Handicap1" ColumnName="Handicap" />
-                <ScalarProperty Name="AvailablePoints" ColumnName="AvailablePoints" />
-                <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
-                <ScalarProperty Name="Player" ColumnName="Player" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HandicapsRoundeds">
             <EntityTypeMapping TypeName="FifaRankingsModel.HandicapsRounded">
               <MappingFragment StoreEntitySet="HandicapsRounded">
                 <ScalarProperty Name="FinalRoundedHandicap" ColumnName="FinalRoundedHandicap" />
+                <ScalarProperty Name="Player" ColumnName="Player" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HandicapThresholds">
+            <EntityTypeMapping TypeName="FifaRankingsModel.HandicapThreshold">
+              <MappingFragment StoreEntitySet="HandicapThresholds">
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Stars" ColumnName="Stars" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Handicaps">
+            <EntityTypeMapping TypeName="FifaRankingsModel.Handicap">
+              <MappingFragment StoreEntitySet="Handicaps">
+                <ScalarProperty Name="Handicap1" ColumnName="Handicap" />
+                <ScalarProperty Name="PerformanceIndicator" ColumnName="PerformanceIndicator" />
+                <ScalarProperty Name="HandicapDenominator" ColumnName="HandicapDenominator" />
+                <ScalarProperty Name="PotentialPoints" ColumnName="PotentialPoints" />
+                <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
                 <ScalarProperty Name="Player" ColumnName="Player" />
               </MappingFragment>
             </EntityTypeMapping>

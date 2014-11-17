@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="FifaRankingsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="HandicapThresholds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Stars" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Low" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="High" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+  </EntityType>
   <EntityType Name="MatchResultLog">
     <Key>
       <PropertyRef Name="Id" />
@@ -60,8 +69,10 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     </Key>
     <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
     <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
-    <Property Name="AvailablePoints" Type="decimal" Precision="38" Scale="0" />
-    <Property Name="Handicap" Type="decimal" Precision="38" Scale="6" />
+    <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="PerformanceIndicator" Type="decimal" Precision="38" Scale="6" />
+    <Property Name="Handicap" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.HandicapsRounded' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -94,10 +105,14 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingLeaderboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="RankingLeaderboard">
     <Key>
+      <PropertyRef Name="PlayerId" />
       <PropertyRef Name="Player" />
     </Key>
+    <Property Name="PlayerId" Type="int" Nullable="false" />
     <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
     <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingPoints' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -213,6 +228,7 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="FifaRankingsModelStoreContainer">
+    <EntitySet Name="HandicapThresholds" EntityType="Self.HandicapThresholds" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MatchResultLog" EntityType="Self.MatchResultLog" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MatchStatus" EntityType="Self.MatchStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
@@ -222,7 +238,9 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
       <DefiningQuery>SELECT 
     [Handicaps].[Player] AS [Player], 
     [Handicaps].[RankingPoints] AS [RankingPoints], 
-    [Handicaps].[AvailablePoints] AS [AvailablePoints], 
+    [Handicaps].[PotentialPoints] AS [PotentialPoints], 
+    [Handicaps].[HandicapDenominator] AS [HandicapDenominator], 
+    [Handicaps].[PerformanceIndicator] AS [PerformanceIndicator], 
     [Handicaps].[Handicap] AS [Handicap]
     FROM [dbo].[Handicaps] AS [Handicaps]</DefiningQuery>
     </EntitySet>
@@ -245,8 +263,11 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     </EntitySet>
     <EntitySet Name="RankingLeaderboard" EntityType="Self.RankingLeaderboard" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [RankingLeaderboard].[PlayerId] AS [PlayerId], 
     [RankingLeaderboard].[Player] AS [Player], 
-    [RankingLeaderboard].[RankingPoints] AS [RankingPoints]
+    [RankingLeaderboard].[RankingPoints] AS [RankingPoints], 
+    [RankingLeaderboard].[PotentialPoints] AS [PotentialPoints], 
+    [RankingLeaderboard].[HandicapDenominator] AS [HandicapDenominator]
     FROM [dbo].[RankingLeaderboard] AS [RankingLeaderboard]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="RankingPoints" EntityType="Self.RankingPoints" store:Type="Views" store:Schema="dbo">

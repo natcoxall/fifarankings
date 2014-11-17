@@ -185,6 +185,9 @@
     <Compile Include="Data\HandicapsRounded.cs">
       <DependentUpon>FifaRankingsContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\HandicapThreshold.cs">
+      <DependentUpon>FifaRankingsContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\MatchResult.cs">
       <DependentUpon>FifaRankingsContext.tt</DependentUpon>
     </Compile>

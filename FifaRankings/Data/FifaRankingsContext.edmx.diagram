@@ -21,8 +21,9 @@
         <AssociationConnector Association="FifaRankingsModel.FK_RankingScoreLog_OppositionPlayer" ManuallyRouted="false" />
         <AssociationConnector Association="FifaRankingsModel.FK_RankingScoreLog_Player" ManuallyRouted="false" />
         <AssociationConnector Association="FifaRankingsModel.FK_RankingScoreLog_ResultOption" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="FifaRankingsModel.Handicap" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="FifaRankingsModel.HandicapsRounded" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="FifaRankingsModel.HandicapThreshold" Width="1.5" PointX="8.375" PointY="6.75" />
+        <EntityTypeShape EntityType="FifaRankingsModel.Handicap" Width="1.5" PointX="5.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -25,24 +25,26 @@
 
 --SELECT * FROM ResultOption
 
-DECLARE @Handicaps TABLE(Stars decimal(18,1), Low decimal(18,2), High decimal(18,2))
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 5.0, 0.00, 0.14 --14
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 4.5, 0.15, 0.28 --13
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 4.0, 0.29, 0.41 --12
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 3.5, 0.42, 0.52 --10
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 3.0, 0.54, 0.63 --9
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 2.5, 0.64, 0.72 --8
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 2.0, 0.73, 0.80 --7
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 1.5, 0.81, 0.87 --6
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 1.0, 0.88, 0.94 --6
-INSERT INTO @Handicaps(Stars, Low, High) SELECT 0.5, 0.95, 1.00 --5
+--DECLARE @Handicaps TABLE(Stars decimal(18,1), Low decimal(18,2), High decimal(18,2))
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 5.0, 0.00, 0.15 --15
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 4.5, 0.11, 0.24 --13
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 4.0, 0.25, 0.37 --12
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 3.5, 0.38, 0.49 --11
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 3.0, 0.50, 0.60 --10
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 2.5, 0.61, 0.70 --9
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 2.0, 0.71, 0.79 --8
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 1.5, 0.80, 0.87 --7
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 1.0, 0.88, 0.94 --6
+--INSERT INTO HandicapThresholds(Stars, Low, High) SELECT 0.5, 0.95, 1.00 --5
+
+SELECT *, High-Low AS Diff FROM HandicapThresholds
 
 SELECT	p.Firstname + ' ' + p.Lastname AS Player
 		,rl.RankingPoints
 		,rl.PotentialPoints
 		,rl.HandicapDenominator
 		,ROUND(RankingPoints / HandicapDenominator, 2) AS PerformanceIndicator
-		,(SELECT TOP 1 Stars FROM @Handicaps 
+		,(SELECT TOP 1 Stars FROM HandicapThresholds
 			WHERE ROUND(RankingPoints / HandicapDenominator, 2) BETWEEN Low AND High) AS Handicap
 FROM	dbo.Player AS p 
 		INNER JOIN dbo.RankingLeaderboard rl ON p.Id = rl.PlayerId

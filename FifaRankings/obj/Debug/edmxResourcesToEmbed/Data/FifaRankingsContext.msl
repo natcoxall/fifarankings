@@ -74,6 +74,9 @@
     <EntitySetMapping Name="RankingLeaderboards">
       <EntityTypeMapping TypeName="FifaRankingsModel.RankingLeaderboard">
         <MappingFragment StoreEntitySet="RankingLeaderboard">
+          <ScalarProperty Name="HandicapDenominator" ColumnName="HandicapDenominator" />
+          <ScalarProperty Name="PotentialPoints" ColumnName="PotentialPoints" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
           <ScalarProperty Name="Player" ColumnName="Player" />
           <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
         </MappingFragment>
@@ -91,20 +94,32 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Handicaps">
-      <EntityTypeMapping TypeName="FifaRankingsModel.Handicap">
-        <MappingFragment StoreEntitySet="Handicaps">
-          <ScalarProperty Name="Handicap1" ColumnName="Handicap" />
-          <ScalarProperty Name="AvailablePoints" ColumnName="AvailablePoints" />
-          <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
-          <ScalarProperty Name="Player" ColumnName="Player" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="HandicapsRoundeds">
       <EntityTypeMapping TypeName="FifaRankingsModel.HandicapsRounded">
         <MappingFragment StoreEntitySet="HandicapsRounded">
           <ScalarProperty Name="FinalRoundedHandicap" ColumnName="FinalRoundedHandicap" />
+          <ScalarProperty Name="Player" ColumnName="Player" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HandicapThresholds">
+      <EntityTypeMapping TypeName="FifaRankingsModel.HandicapThreshold">
+        <MappingFragment StoreEntitySet="HandicapThresholds">
+          <ScalarProperty Name="High" ColumnName="High" />
+          <ScalarProperty Name="Low" ColumnName="Low" />
+          <ScalarProperty Name="Stars" ColumnName="Stars" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Handicaps">
+      <EntityTypeMapping TypeName="FifaRankingsModel.Handicap">
+        <MappingFragment StoreEntitySet="Handicaps">
+          <ScalarProperty Name="Handicap1" ColumnName="Handicap" />
+          <ScalarProperty Name="PerformanceIndicator" ColumnName="PerformanceIndicator" />
+          <ScalarProperty Name="HandicapDenominator" ColumnName="HandicapDenominator" />
+          <ScalarProperty Name="PotentialPoints" ColumnName="PotentialPoints" />
+          <ScalarProperty Name="RankingPoints" ColumnName="RankingPoints" />
           <ScalarProperty Name="Player" ColumnName="Player" />
         </MappingFragment>
       </EntityTypeMapping>

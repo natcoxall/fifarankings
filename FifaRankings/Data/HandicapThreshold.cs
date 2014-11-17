@@ -12,13 +12,11 @@ namespace FifaRankings.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Handicap
+    public partial class HandicapThreshold
     {
-        public string Player { get; set; }
-        public Nullable<decimal> RankingPoints { get; set; }
-        public Nullable<decimal> PotentialPoints { get; set; }
-        public Nullable<decimal> HandicapDenominator { get; set; }
-        public Nullable<decimal> PerformanceIndicator { get; set; }
-        public string Handicap1 { get; set; }
+        public int Id { get; set; }
+        public string Stars { get; set; }
+        public decimal Low { get; set; }
+        public decimal High { get; set; }
     }
 }

@@ -16,5 +16,8 @@ namespace FifaRankings.Data
     {
         public string Player { get; set; }
         public Nullable<decimal> RankingPoints { get; set; }
+        public int PlayerId { get; set; }
+        public Nullable<decimal> PotentialPoints { get; set; }
+        public Nullable<decimal> HandicapDenominator { get; set; }
     }
 }
