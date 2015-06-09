@@ -17,7 +17,7 @@ namespace FifaRankings.Controllers
         // GET: Players
         public ActionResult Index()
         {
-            return View(db.Players.ToList());
+            return View(db.Players.OrderBy(o => o.Firstname).ToList());
         }
 
         // GET: Players/Details/5
