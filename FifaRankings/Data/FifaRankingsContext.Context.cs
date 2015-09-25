@@ -31,10 +31,10 @@ namespace FifaRankings.Data
         public virtual DbSet<RankingScoreLog> RankingScoreLogs { get; set; }
         public virtual DbSet<ResultOption> ResultOptions { get; set; }
         public virtual DbSet<MatchResult> MatchResults { get; set; }
-        public virtual DbSet<RankingLeaderboard> RankingLeaderboards { get; set; }
         public virtual DbSet<RankingPoint> RankingPoints { get; set; }
         public virtual DbSet<HandicapsRounded> HandicapsRoundeds { get; set; }
         public virtual DbSet<HandicapThreshold> HandicapThresholds { get; set; }
+        public virtual DbSet<RankingLeaderboard> RankingLeaderboards { get; set; }
         public virtual DbSet<Handicap> Handicaps { get; set; }
     }
 }

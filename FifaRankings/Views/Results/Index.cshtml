@@ -39,7 +39,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.MatchDate)
+            @String.Format("{0:yyyy/MM/dd}", item.MatchDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MatchType)

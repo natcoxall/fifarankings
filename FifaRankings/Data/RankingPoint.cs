@@ -20,5 +20,7 @@ namespace FifaRankings.Data
         public int Points { get; set; }
         public string OppositionPlayer { get; set; }
         public Nullable<decimal> RankingPoints { get; set; }
+        public int PlayerId { get; set; }
+        public Nullable<decimal> PotentialPoints { get; set; }
     }
 }

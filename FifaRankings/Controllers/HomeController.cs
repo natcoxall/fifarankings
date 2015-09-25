@@ -18,6 +18,7 @@ namespace FifaRankings.Controllers
             {
                 ViewBag.RankingsLeaderboard = db.RankingLeaderboards.OrderByDescending(p => p.RankingPoints).ToList();
                 ViewBag.PlayerHandicaps = db.Handicaps.OrderByDescending(p => p.PerformanceIndicator).ToList();
+                ViewBag.HandicapThresholds = db.HandicapThresholds.OrderBy(h => h.Stars).ToList();
             }
             return View();
         }

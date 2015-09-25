@@ -105,6 +105,6 @@ C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\bin\Microsof
 C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\obj\Debug\FifaRankings.csprojResolveAssemblyReference.cache
 C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\obj\Debug\FifaRankings.dll
 C:\Users\NathanielCoxall\Documents\GitHub\fifarankings\FifaRankings\obj\Debug\FifaRankings.pdb
+C:\Users\nathanielcoxall\Documents\GitHub\fifarankings\FifaRankings\obj\Debug\FifaRankings.csprojResolveAssemblyReference.cache

@@ -14,9 +14,11 @@ namespace FifaRankings.Data
     
     public partial class RankingLeaderboard
     {
-        public string Player { get; set; }
-        public Nullable<decimal> RankingPoints { get; set; }
         public int PlayerId { get; set; }
+        public string PlayerName { get; set; }
+        public Nullable<int> MatchesPlayed { get; set; }
+        public Nullable<decimal> NoobModifier { get; set; }
+        public Nullable<decimal> RankingPoints { get; set; }
         public Nullable<decimal> PotentialPoints { get; set; }
         public Nullable<decimal> HandicapDenominator { get; set; }
     }

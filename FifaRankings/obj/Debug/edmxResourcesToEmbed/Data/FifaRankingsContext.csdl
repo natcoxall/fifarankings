@@ -84,17 +84,6 @@
     <Property Name="AwayPlayer" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="PenaltiesPlayed" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
-  <EntityType Name="RankingLeaderboard">
-    <Key>
-      <PropertyRef Name="Player" />
-      <PropertyRef Name="PlayerId" />
-    </Key>
-    <Property Name="Player" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
-    <Property Name="PlayerId" Type="Int32" Nullable="false" />
-    <Property Name="PotentialPoints" Type="Decimal" Precision="38" Scale="0" />
-    <Property Name="HandicapDenominator" Type="Decimal" Precision="38" Scale="0" />
-  </EntityType>
   <EntityType Name="RankingPoint">
     <Key>
       <PropertyRef Name="Player" />
@@ -102,6 +91,7 @@
       <PropertyRef Name="Result" />
       <PropertyRef Name="Points" />
       <PropertyRef Name="OppositionPlayer" />
+      <PropertyRef Name="PlayerId" />
     </Key>
     <Property Name="Player" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="MatchStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
@@ -109,6 +99,8 @@
     <Property Name="Points" Type="Int32" Nullable="false" />
     <Property Name="OppositionPlayer" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="RankingPoints" Type="Decimal" Precision="29" Scale="0" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="PotentialPoints" Type="Decimal" Precision="20" Scale="0" />
   </EntityType>
   <Association Name="FK_MatchResultLog_AwayPlayer">
     <End Role="Player" Type="Self.Player" Multiplicity="1" />
@@ -213,7 +205,6 @@
     <EntitySet Name="RankingScoreLogs" EntityType="Self.RankingScoreLog" />
     <EntitySet Name="ResultOptions" EntityType="Self.ResultOption" />
     <EntitySet Name="MatchResults" EntityType="Self.MatchResult" />
-    <EntitySet Name="RankingLeaderboards" EntityType="Self.RankingLeaderboard" />
     <EntitySet Name="RankingPoints" EntityType="Self.RankingPoint" />
     <AssociationSet Name="FK_MatchResultLog_AwayPlayer" Association="Self.FK_MatchResultLog_AwayPlayer">
       <End Role="Player" EntitySet="Players" />
@@ -249,6 +240,7 @@
     </AssociationSet>
     <EntitySet Name="HandicapsRoundeds" EntityType="FifaRankingsModel.HandicapsRounded" />
     <EntitySet Name="HandicapThresholds" EntityType="FifaRankingsModel.HandicapThreshold" />
+    <EntitySet Name="RankingLeaderboards" EntityType="FifaRankingsModel.RankingLeaderboard" />
     <EntitySet Name="Handicaps" EntityType="FifaRankingsModel.Handicap" />
   </EntityContainer>
   <EntityType Name="HandicapsRounded">
@@ -267,15 +259,32 @@
     <Property Name="Low" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="High" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
   </EntityType>
+  <EntityType Name="RankingLeaderboard">
+    <Key>
+      <PropertyRef Name="PlayerId" />
+      <PropertyRef Name="PlayerName" />
+    </Key>
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="PlayerName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+    <Property Name="MatchesPlayed" Type="Int32" />
+    <Property Name="NoobModifier" Type="Decimal" Precision="3" Scale="2" />
+    <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="PotentialPoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="HandicapDenominator" Type="Decimal" Precision="38" Scale="0" />
+  </EntityType>
   <EntityType Name="Handicap">
     <Key>
       <PropertyRef Name="Player" />
     </Key>
     <Property Name="Player" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
-    <Property Name="RankingPoints" Type="Decimal" Precision="38" Scale="0" />
-    <Property Name="PotentialPoints" Type="Decimal" Precision="38" Scale="0" />
-    <Property Name="HandicapDenominator" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="MatchesPlayed" Type="Int32" />
+    <Property Name="RawRankingPoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="MatchesPlayedModifier" Type="Decimal" Precision="2" Scale="1" />
+    <Property Name="RankingPointsAdjusted" Type="Decimal" Precision="38" Scale="1" />
+    <Property Name="TotalPotentialPoints" Type="Decimal" Precision="38" Scale="0" />
+    <Property Name="OldPerformanceIndicator" Type="Decimal" Precision="38" Scale="6" />
     <Property Name="PerformanceIndicator" Type="Decimal" Precision="38" Scale="6" />
+    <Property Name="OldHandicap" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Handicap1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

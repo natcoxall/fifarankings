@@ -15,10 +15,14 @@ namespace FifaRankings.Data
     public partial class Handicap
     {
         public string Player { get; set; }
-        public Nullable<decimal> RankingPoints { get; set; }
-        public Nullable<decimal> PotentialPoints { get; set; }
-        public Nullable<decimal> HandicapDenominator { get; set; }
+        public Nullable<int> MatchesPlayed { get; set; }
+        public Nullable<decimal> RawRankingPoints { get; set; }
+        public Nullable<decimal> MatchesPlayedModifier { get; set; }
+        public Nullable<decimal> RankingPointsAdjusted { get; set; }
+        public Nullable<decimal> TotalPotentialPoints { get; set; }
+        public Nullable<decimal> OldPerformanceIndicator { get; set; }
         public Nullable<decimal> PerformanceIndicator { get; set; }
+        public string OldHandicap { get; set; }
         public string Handicap1 { get; set; }
     }
 }

@@ -2,45 +2,81 @@
     ViewBag.Title = "Home Page";
 }
 <div class="row">
-    <div class="col-md-6">
-        <h1>Current Player Rankings</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <td>Player</td>
-                    <td>Points</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (FifaRankings.Data.RankingLeaderboard p in ViewBag.RankingsLeaderboard)
-                {
+    <div class="col-md-12 clearfix">
+        <div class="col-md-6">
+            <h1>Current Player Rankings</h1>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>@p.Player</td>
-                        <td>@p.RankingPoints</td>
+                        <td>Player</td>
+                        <td>Handicap</td>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (FifaRankings.Data.Handicap p in ViewBag.PlayerHandicaps)
+                    {
+                        <tr>
+                            <td>@p.Player</td>
+                            <td>@p.Handicap1</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h1>Handicap Thresholds</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>PI Range</td>
+                        <td>Stars</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (FifaRankings.Data.HandicapThreshold threshold in ViewBag.HandicapThresholds)
+                    {
+                        <tr>
+                            <td>@string.Format("{0}% - {1}%", (threshold.Low * 100).ToString("."), (threshold.High * 100).ToString("."))</td>
+                            <td>@threshold.Stars</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         <h2>Player Handicaps</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <td>Player</td>
-                    <td>PI</td>
-                    <td>Stars</td>
+                    <td>Played</td>
+                    <td>Total Potential Points</td>
+                    <td>Raw Points</td>
+                    <td>Raw PI</td>
+                    <td>Raw Handicap</td>
+                    <td>Modifier</td>
+                    <td>Modified Points</td>
+                    <td>Modified PI</td>
+                    <td>Modified Handicap</td>
                 </tr>
             </thead>
             <tbody>
-            @foreach (FifaRankings.Data.Handicap player in ViewBag.PlayerHandicaps)
+                @foreach (FifaRankings.Data.Handicap player in ViewBag.PlayerHandicaps)
             {
-                <tr>
-                    <td>@player.Player</td>
-                    <td>@((player.PerformanceIndicator.Value * 100).ToString("."))%</td>
-                    <td>@player.Handicap1</td>
-                </tr>
-            }
+                    <tr>
+                        <td>@player.Player</td>
+                        <td>@player.MatchesPlayed</td>
+                        <td>@player.TotalPotentialPoints</td>
+                        <td>@player.RawRankingPoints</td>
+                        <td>@((player.OldPerformanceIndicator.Value * 100).ToString("."))%</td>
+                        <td>@player.OldHandicap</td>
+                        <td>@player.MatchesPlayedModifier</td>
+                        <td>@player.RankingPointsAdjusted.Value.ToString(".")</td>
+                        <td>@((player.PerformanceIndicator.Value * 100).ToString("."))%</td>
+                        <td>@player.Handicap1</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

@@ -68,10 +68,14 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
       <PropertyRef Name="Player" />
     </Key>
     <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
-    <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
-    <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
-    <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
-    <Property Name="PerformanceIndicator" Type="decimal" Precision="38" Scale="6" />
+    <Property Name="MatchesPlayed" Type="int" />
+    <Property Name="RawRankingPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="MatchesPlayedModifier" Type="numeric" Precision="2" Scale="1" />
+    <Property Name="RankingPointsAdjusted" Type="numeric" Precision="38" Scale="1" />
+    <Property Name="TotalPotentialPoints" Type="decimal" Precision="38" Scale="0" />
+    <Property Name="OldPerformanceIndicator" Type="decimal" Precision="38" Scale="6" />
+    <Property Name="PerformanceIndicator" Type="numeric" Precision="38" Scale="6" />
+    <Property Name="OldHandicap" Type="nvarchar" MaxLength="100" />
     <Property Name="Handicap" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -106,10 +110,12 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
   <EntityType Name="RankingLeaderboard">
     <Key>
       <PropertyRef Name="PlayerId" />
-      <PropertyRef Name="Player" />
+      <PropertyRef Name="PlayerName" />
     </Key>
     <Property Name="PlayerId" Type="int" Nullable="false" />
-    <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
+    <Property Name="PlayerName" Type="nvarchar" MaxLength="101" Nullable="false" />
+    <Property Name="MatchesPlayed" Type="int" />
+    <Property Name="NoobModifier" Type="numeric" Precision="3" Scale="2" />
     <Property Name="RankingPoints" Type="decimal" Precision="38" Scale="0" />
     <Property Name="PotentialPoints" Type="decimal" Precision="38" Scale="0" />
     <Property Name="HandicapDenominator" Type="decimal" Precision="38" Scale="0" />
@@ -118,18 +124,21 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
 warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANKINGS\FIFARANKINGS\APP_DATA\FIFARANKINGS.MDF.dbo.RankingPoints' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="RankingPoints">
     <Key>
+      <PropertyRef Name="PlayerId" />
       <PropertyRef Name="Player" />
       <PropertyRef Name="MatchStatus" />
       <PropertyRef Name="Result" />
       <PropertyRef Name="Points" />
       <PropertyRef Name="OppositionPlayer" />
     </Key>
+    <Property Name="PlayerId" Type="int" Nullable="false" />
     <Property Name="Player" Type="nvarchar" MaxLength="101" Nullable="false" />
     <Property Name="MatchStatus" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Result" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Points" Type="int" Nullable="false" />
     <Property Name="OppositionPlayer" Type="nvarchar" MaxLength="101" Nullable="false" />
     <Property Name="RankingPoints" Type="decimal" Precision="29" Scale="0" />
+    <Property Name="PotentialPoints" Type="decimal" Precision="20" Scale="0" />
   </EntityType>
   <Association Name="FK_MatchResultLog_AwayPlayer">
     <End Role="Player" Type="Self.Player" Multiplicity="1" />
@@ -237,10 +246,14 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     <EntitySet Name="Handicaps" EntityType="Self.Handicaps" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [Handicaps].[Player] AS [Player], 
-    [Handicaps].[RankingPoints] AS [RankingPoints], 
-    [Handicaps].[PotentialPoints] AS [PotentialPoints], 
-    [Handicaps].[HandicapDenominator] AS [HandicapDenominator], 
+    [Handicaps].[MatchesPlayed] AS [MatchesPlayed], 
+    [Handicaps].[RawRankingPoints] AS [RawRankingPoints], 
+    [Handicaps].[MatchesPlayedModifier] AS [MatchesPlayedModifier], 
+    [Handicaps].[RankingPointsAdjusted] AS [RankingPointsAdjusted], 
+    [Handicaps].[TotalPotentialPoints] AS [TotalPotentialPoints], 
+    [Handicaps].[OldPerformanceIndicator] AS [OldPerformanceIndicator], 
     [Handicaps].[PerformanceIndicator] AS [PerformanceIndicator], 
+    [Handicaps].[OldHandicap] AS [OldHandicap], 
     [Handicaps].[Handicap] AS [Handicap]
     FROM [dbo].[Handicaps] AS [Handicaps]</DefiningQuery>
     </EntitySet>
@@ -264,7 +277,9 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     <EntitySet Name="RankingLeaderboard" EntityType="Self.RankingLeaderboard" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [RankingLeaderboard].[PlayerId] AS [PlayerId], 
-    [RankingLeaderboard].[Player] AS [Player], 
+    [RankingLeaderboard].[PlayerName] AS [PlayerName], 
+    [RankingLeaderboard].[MatchesPlayed] AS [MatchesPlayed], 
+    [RankingLeaderboard].[NoobModifier] AS [NoobModifier], 
     [RankingLeaderboard].[RankingPoints] AS [RankingPoints], 
     [RankingLeaderboard].[PotentialPoints] AS [PotentialPoints], 
     [RankingLeaderboard].[HandicapDenominator] AS [HandicapDenominator]
@@ -272,12 +287,14 @@ warning 6002: The table/view 'C:\USERS\NATHANIELCOXALL\DOCUMENTS\GITHUB\FIFARANK
     </EntitySet>
     <EntitySet Name="RankingPoints" EntityType="Self.RankingPoints" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [RankingPoints].[PlayerId] AS [PlayerId], 
     [RankingPoints].[Player] AS [Player], 
     [RankingPoints].[MatchStatus] AS [MatchStatus], 
     [RankingPoints].[Result] AS [Result], 
     [RankingPoints].[Points] AS [Points], 
     [RankingPoints].[OppositionPlayer] AS [OppositionPlayer], 
-    [RankingPoints].[RankingPoints] AS [RankingPoints]
+    [RankingPoints].[RankingPoints] AS [RankingPoints], 
+    [RankingPoints].[PotentialPoints] AS [PotentialPoints]
     FROM [dbo].[RankingPoints] AS [RankingPoints]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_MatchResultLog_AwayPlayer" Association="Self.FK_MatchResultLog_AwayPlayer">

@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifaRankings", "FifaRankings\FifaRankings.csproj", "{F4E0C60D-E947-4605-AE2D-6F6D6E8E96DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "DatabaseScripts", "{8BA58804-0CD0-403C-9E29-9D11FCC94118}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\HandicapCalcs.sql = Scripts\HandicapCalcs.sql
+		Scripts\HandicapCalcs2.sql = Scripts\HandicapCalcs2.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
